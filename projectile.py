@@ -9,7 +9,10 @@ dt = 1e-3       # integration time step (delta t)
 v0 = 2.7       # initial speed at t=0
 x0 = -0.229     # initial x coordinate
 y0 = 0.406      # initial y coordinate
-angle = math.pi / 4     #launch angle in radians
+radians_per_degree = math.pi/180
+angles_in_degrees = np.arange(40,51,5)
+angles = angles_in_degrees * radians_per_degree
+
 gamm = 0    #gamma (used to compute f, below)
 h = 100         #height (used to compute f, below)
 fence_height = 2.0 * 0.3048
@@ -33,19 +36,18 @@ def traj_fr(angle, v0, x0, y0):             #function that computes trajectory f
     y = y[0:i+1]        #truncate y array
     return x, y, (dt*i), x[i]       #return x, y, flight time, range of projectile
 
-n = 19
-angles = np.linspace(0, math.pi/2, n)   #generate array of n angles
-maxrange = np.zeros(n)                  #generate array of n elements to take range from traj_fr
+n = len(angles)
+maxrange = []
 
 for i in range(n): 				        #loop to run angles through traj_fr function & populate maxrange array with distance results
-    x,y,duration,maxrange[i] = traj_fr(angles[i], v0, x0, y0)
+    x,y,duration,range = traj_fr(angles[i], v0, x0, y0)
+    maxrange.append(range)
     plt.plot(x,y, color='b', linestyle='-', linewidth=1)       #quick plot of x vs y to check trajectory
 
-angles = angles / 2 / math.pi * 360       #convert radians to degrees
-print 'Launch Angles: ', angles
+print 'Launch Angles: ', angles_in_degrees
 print 'Ranges: ', maxrange
-optimal_angle_degrees = angles[np.where(maxrange==np.max(maxrange))]
-optimal_angle_radians = optimal_angle_degrees / 180 * math.pi
+optimal_angle_degrees = angles_in_degrees[np.where(maxrange==np.max(maxrange))]
+optimal_angle_radians = optimal_angle_degrees * radians_per_degree
 print 'Optimum Angle and range: ', optimal_angle_degrees, np.max(maxrange)
 
 x,y,duration,range = traj_fr(optimal_angle_radians, v0, x0, y0)
