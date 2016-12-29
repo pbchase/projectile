@@ -69,15 +69,6 @@ x,y,duration,range = traj_fr(optimal_angle_radians, v0, x0, y0)
 
 print 'Duration of flight for maximum x (s): ' , duration
 
-# # find the height at x=0
-
-# minimum_x = np.min(np.absolute(x))
-# index_of_minimum_x = np.where(np.abs(x)==minimum_x)
-# y_at_x_near_zero = y[index_of_minimum_x[0][0]]
-
-# print 'Minimum x:', minimum_x
-# print 'Height at x ~= 0: ', y_at_x_near_zero
-
 plt.xlabel('Distance (m)')
 plt.ylabel('Height (m)')
 plt.title('Predicted trajectories')
@@ -86,7 +77,6 @@ plt.plot([-arena_width/2,-arena_width/2], [0,perimeter_height], color='k', lines
 plt.plot([arena_width/2,arena_width/2], [0,perimeter_height], color='k', linestyle='-', linewidth=2)
 plt.plot([high_score_boundary, high_score_boundary], [0,0.01], color='k', linestyle='-', linewidth=2)
 plt.axis([-2, 2, -0.0, 1.5])
-#plt.axis('equal')
 
 newline="\n"
 text_label = newline.join((init_speed, init_x, init_y, max_x, angle_for_max_x))
