@@ -5,7 +5,7 @@ import math
 import scipy.constants as const
 
 g = 9.81     # gravitation constant (meters/second^2)
-dt = 0.01       # integration time step, delta t (seconds)
+dt = 0.001       # integration time step, delta t (seconds)
 v0 = 4.0        # initial speed at t=0 (meters/second)
 x0 = -0.381     # initial x coordinate (meters)
 y0 = 0.406      # initial y coordinate (meters)
@@ -31,14 +31,12 @@ def traj_fr(angle, v0, x0, y0):  #function that computes trajectory for some lau
     vy.append(vy[0] - g*dt)
 
     i=1
-    while y[i-1]>=0:  #loop continuous until y becomes <0, ie projectile hits ground
+    while y[i]>=0:  #loop continuous until y becomes <0, ie projectile hits ground
         i = i+1     #increment i for next iteration
-        y.append( (y[i-1]) + vy[i-1]*dt  - 0.5 * g * dt**2 )      # ...& y[i+1]
+        y.append( (y[i-1]) + vy[i-1]*dt  - 0.5 * g * dt**2 )
         x.append( x[i-1] + vx0*dt )
         vy.append( vy[i-1] - g*dt )
 
-	# x = x[0:i+1]        #truncate x array
-    # y = y[0:i+1]        #truncate y array
     return x, y, (dt*i), x[i]       #return x, y, flight time, range of projectile
 
 n = len(angles)
